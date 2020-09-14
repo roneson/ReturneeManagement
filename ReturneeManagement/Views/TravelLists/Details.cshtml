@@ -1,0 +1,72 @@
+﻿@model ReturneeManagement.Models.TravelList
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Travel Schedule Details</h2>
+
+<div>
+    <h4>TravelList</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FlightVessel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlightVessel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FlightCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlightCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArrivalDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArrivalDate)
+        </dd>
+
+    </dl>
+
+    <table class="table table-condensed table-responsive">
+        <tr>
+            <th>Passenger Name</th>
+            <th>Birthday</th>
+            <th>Gender</th>
+        </tr>
+        @foreach(var individual_travel in Model.Individual_Travel)
+        {
+        <tr>
+            <td>
+                <p>
+                    @individual_travel.Individual.FullName
+                </p>
+            </td>
+            <td>
+                <p>
+                    @individual_travel.Individual.BirthDate
+                </p>
+            </td>
+            <td>
+                <p>
+                    @individual_travel.Individual.Gender
+                </p>
+            </td>
+        </tr>
+        }
+    </table>
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TravelID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

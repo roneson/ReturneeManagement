@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b3d76fcb06bc40119aa1bb7353cdf5a0" Name="Diagram1">
+        <EntityTypeShape EntityType="ReturneeManagement_DBModel.Individual" Width="1.5" PointX="5.875" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReturneeManagement_DBModel.IndiVidual_Address" Width="2" PointX="9.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReturneeManagement_DBModel.Individual_Travel" Width="1.5" PointX="3.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReturneeManagement_DBModel.TravelList" Width="1.5" PointX="1" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="ReturneeManagement_DBModel.FK_IndiVidual_Address_Individual" ManuallyRouted="false" />
+        <AssociationConnector Association="ReturneeManagement_DBModel.FK_Individual_IndiVidual_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="ReturneeManagement_DBModel.FK_Individual_Travel_Individual" ManuallyRouted="false" />
+        <AssociationConnector Association="ReturneeManagement_DBModel.FK_Individual_Travel_TravelList" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

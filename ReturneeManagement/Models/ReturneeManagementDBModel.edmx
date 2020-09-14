@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ReturneeManagement_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Individual">
+          <Key>
+            <PropertyRef Name="IndividualID" />
+          </Key>
+          <Property Name="IndividualID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="100" />
+          <Property Name="BirthDate" Type="date" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CivilStatus" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Occupation" Type="nvarchar" MaxLength="50" />
+          <Property Name="Religion" Type="nvarchar" MaxLength="50" />
+          <Property Name="TelepnoeNo" Type="nvarchar" MaxLength="15" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="15" />
+          <Property Name="AddressID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="IndiVidual_Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IndividualID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddressType" Type="nvarchar" MaxLength="50" />
+          <Property Name="BarangayName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Province" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BldgNo" Type="varchar" MaxLength="50" />
+          <Property Name="BldgName" Type="varchar" MaxLength="50" />
+          <Property Name="UnitNo" Type="varchar" MaxLength="50" />
+          <Property Name="Street" Type="varchar" MaxLength="255" />
+          <Property Name="Subdivision" Type="varchar" MaxLength="100" />
+          <Property Name="Pin" Type="varchar" MaxLength="50" />
+          <Property Name="text" Type="varchar" MaxLength="255" />
+          <Property Name="GeogCol1" Type="geography" />
+          <Property Name="GeogCol2" Type="nvarchar(max)" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Individual_Travel">
+          <Key>
+            <PropertyRef Name="ObjID" />
+          </Key>
+          <Property Name="ObjID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TravelType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TravelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IndividualID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TravelList">
+          <Key>
+            <PropertyRef Name="TravelID" />
+          </Key>
+          <Property Name="TravelID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FlightVessel" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FlightCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="ArrivalDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_IndiVidual_Address_Individual">
+          <End Role="Individual" Type="Self.Individual" Multiplicity="1" />
+          <End Role="IndiVidual_Address" Type="Self.IndiVidual_Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Individual">
+              <PropertyRef Name="IndividualID" />
+            </Principal>
+            <Dependent Role="IndiVidual_Address">
+              <PropertyRef Name="IndividualID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Individual_IndiVidual_Address">
+          <End Role="IndiVidual_Address" Type="Self.IndiVidual_Address" Multiplicity="0..1" />
+          <End Role="Individual" Type="Self.Individual" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IndiVidual_Address">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="Individual">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Individual_Travel_Individual">
+          <End Role="Individual" Type="Self.Individual" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Individual_Travel" Type="Self.Individual_Travel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Individual">
+              <PropertyRef Name="IndividualID" />
+            </Principal>
+            <Dependent Role="Individual_Travel">
+              <PropertyRef Name="IndividualID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Individual_Travel_TravelList">
+          <End Role="TravelList" Type="Self.TravelList" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Individual_Travel" Type="Self.Individual_Travel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelList">
+              <PropertyRef Name="TravelID" />
+            </Principal>
+            <Dependent Role="Individual_Travel">
+              <PropertyRef Name="TravelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReturneeManagement_DBModelStoreContainer">
+          <EntitySet Name="Individual" EntityType="Self.Individual" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IndiVidual_Address" EntityType="Self.IndiVidual_Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Individual_Travel" EntityType="Self.Individual_Travel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TravelList" EntityType="Self.TravelList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_IndiVidual_Address_Individual" Association="Self.FK_IndiVidual_Address_Individual">
+            <End Role="Individual" EntitySet="Individual" />
+            <End Role="IndiVidual_Address" EntitySet="IndiVidual_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Individual_IndiVidual_Address" Association="Self.FK_Individual_IndiVidual_Address">
+            <End Role="IndiVidual_Address" EntitySet="IndiVidual_Address" />
+            <End Role="Individual" EntitySet="Individual" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Individual_Travel_Individual" Association="Self.FK_Individual_Travel_Individual">
+            <End Role="Individual" EntitySet="Individual" />
+            <End Role="Individual_Travel" EntitySet="Individual_Travel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Individual_Travel_TravelList" Association="Self.FK_Individual_Travel_TravelList">
+            <End Role="TravelList" EntitySet="TravelList" />
+            <End Role="Individual_Travel" EntitySet="Individual_Travel" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ReturneeManagement_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Individual">
+          <Key>
+            <PropertyRef Name="IndividualID" />
+          </Key>
+          <Property Name="IndividualID" Type="Guid" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CivilStatus" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Occupation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Religion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TelepnoeNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="AddressID" Type="Guid" />
+          <NavigationProperty Name="IndiVidual_Address" Relationship="Self.FK_IndiVidual_Address_Individual" FromRole="Individual" ToRole="IndiVidual_Address" />
+          <NavigationProperty Name="IndiVidual_Address1" Relationship="Self.FK_Individual_IndiVidual_Address" FromRole="Individual" ToRole="IndiVidual_Address" />
+          <NavigationProperty Name="Individual_Travel" Relationship="Self.FK_Individual_Travel_Individual" FromRole="Individual" ToRole="Individual_Travel" />
+        </EntityType>
+        <EntityType Name="IndiVidual_Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="Guid" Nullable="false" />
+          <Property Name="IndividualID" Type="Guid" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddressType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BarangayName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BldgNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BldgName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UnitNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Subdivision" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="text" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GeogCol1" Type="Geography" />
+          <Property Name="GeogCol2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Individual" Relationship="Self.FK_IndiVidual_Address_Individual" FromRole="IndiVidual_Address" ToRole="Individual" />
+          <NavigationProperty Name="Individuals" Relationship="Self.FK_Individual_IndiVidual_Address" FromRole="IndiVidual_Address" ToRole="Individual" />
+        </EntityType>
+        <EntityType Name="Individual_Travel">
+          <Key>
+            <PropertyRef Name="ObjID" />
+          </Key>
+          <Property Name="ObjID" Type="Guid" Nullable="false" />
+          <Property Name="TravelType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TravelID" Type="Guid" Nullable="false" />
+          <Property Name="IndividualID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Individual" Relationship="Self.FK_Individual_Travel_Individual" FromRole="Individual_Travel" ToRole="Individual" />
+          <NavigationProperty Name="TravelList" Relationship="Self.FK_Individual_Travel_TravelList" FromRole="Individual_Travel" ToRole="TravelList" />
+        </EntityType>
+        <EntityType Name="TravelList">
+          <Key>
+            <PropertyRef Name="TravelID" />
+          </Key>
+          <Property Name="TravelID" Type="Guid" Nullable="false" />
+          <Property Name="FlightVessel" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FlightCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ArrivalDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Individual_Travel" Relationship="Self.FK_Individual_Travel_TravelList" FromRole="TravelList" ToRole="Individual_Travel" />
+        </EntityType>
+        <Association Name="FK_IndiVidual_Address_Individual">
+          <End Role="Individual" Type="Self.Individual" Multiplicity="1" />
+          <End Role="IndiVidual_Address" Type="Self.IndiVidual_Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Individual">
+              <PropertyRef Name="IndividualID" />
+            </Principal>
+            <Dependent Role="IndiVidual_Address">
+              <PropertyRef Name="IndividualID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Individual_IndiVidual_Address">
+          <End Role="IndiVidual_Address" Type="Self.IndiVidual_Address" Multiplicity="0..1" />
+          <End Role="Individual" Type="Self.Individual" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IndiVidual_Address">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="Individual">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Individual_Travel_Individual">
+          <End Role="Individual" Type="Self.Individual" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Individual_Travel" Type="Self.Individual_Travel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Individual">
+              <PropertyRef Name="IndividualID" />
+            </Principal>
+            <Dependent Role="Individual_Travel">
+              <PropertyRef Name="IndividualID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Individual_Travel_TravelList">
+          <End Role="TravelList" Type="Self.TravelList" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Individual_Travel" Type="Self.Individual_Travel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TravelList">
+              <PropertyRef Name="TravelID" />
+            </Principal>
+            <Dependent Role="Individual_Travel">
+              <PropertyRef Name="TravelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReturneeManagement_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Individuals" EntityType="Self.Individual" />
+          <EntitySet Name="IndiVidual_Address" EntityType="Self.IndiVidual_Address" />
+          <EntitySet Name="Individual_Travel" EntityType="Self.Individual_Travel" />
+          <EntitySet Name="TravelLists" EntityType="Self.TravelList" />
+          <AssociationSet Name="FK_IndiVidual_Address_Individual" Association="Self.FK_IndiVidual_Address_Individual">
+            <End Role="Individual" EntitySet="Individuals" />
+            <End Role="IndiVidual_Address" EntitySet="IndiVidual_Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Individual_IndiVidual_Address" Association="Self.FK_Individual_IndiVidual_Address">
+            <End Role="IndiVidual_Address" EntitySet="IndiVidual_Address" />
+            <End Role="Individual" EntitySet="Individuals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Individual_Travel_Individual" Association="Self.FK_Individual_Travel_Individual">
+            <End Role="Individual" EntitySet="Individuals" />
+            <End Role="Individual_Travel" EntitySet="Individual_Travel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Individual_Travel_TravelList" Association="Self.FK_Individual_Travel_TravelList">
+            <End Role="TravelList" EntitySet="TravelLists" />
+            <End Role="Individual_Travel" EntitySet="Individual_Travel" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ReturneeManagement_DBModelStoreContainer" CdmEntityContainer="ReturneeManagement_DBEntities">
+          <EntitySetMapping Name="Individuals">
+            <EntityTypeMapping TypeName="ReturneeManagement_DBModel.Individual">
+              <MappingFragment StoreEntitySet="Individual">
+                <ScalarProperty Name="IndividualID" ColumnName="IndividualID" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="CivilStatus" ColumnName="CivilStatus" />
+                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+                <ScalarProperty Name="Religion" ColumnName="Religion" />
+                <ScalarProperty Name="TelepnoeNo" ColumnName="TelepnoeNo" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IndiVidual_Address">
+            <EntityTypeMapping TypeName="ReturneeManagement_DBModel.IndiVidual_Address">
+              <MappingFragment StoreEntitySet="IndiVidual_Address">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="IndividualID" ColumnName="IndividualID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="AddressType" ColumnName="AddressType" />
+                <ScalarProperty Name="BarangayName" ColumnName="BarangayName" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="BldgNo" ColumnName="BldgNo" />
+                <ScalarProperty Name="BldgName" ColumnName="BldgName" />
+                <ScalarProperty Name="UnitNo" ColumnName="UnitNo" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Subdivision" ColumnName="Subdivision" />
+                <ScalarProperty Name="Pin" ColumnName="Pin" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="GeogCol1" ColumnName="GeogCol1" />
+                <ScalarProperty Name="GeogCol2" ColumnName="GeogCol2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Individual_Travel">
+            <EntityTypeMapping TypeName="ReturneeManagement_DBModel.Individual_Travel">
+              <MappingFragment StoreEntitySet="Individual_Travel">
+                <ScalarProperty Name="ObjID" ColumnName="ObjID" />
+                <ScalarProperty Name="TravelType" ColumnName="TravelType" />
+                <ScalarProperty Name="TravelID" ColumnName="TravelID" />
+                <ScalarProperty Name="IndividualID" ColumnName="IndividualID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TravelLists">
+            <EntityTypeMapping TypeName="ReturneeManagement_DBModel.TravelList">
+              <MappingFragment StoreEntitySet="TravelList">
+                <ScalarProperty Name="TravelID" ColumnName="TravelID" />
+                <ScalarProperty Name="FlightVessel" ColumnName="FlightVessel" />
+                <ScalarProperty Name="FlightCode" ColumnName="FlightCode" />
+                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
